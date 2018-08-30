@@ -7,6 +7,8 @@ Object.assign=require('object-assign')
 
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
+var index = require('./routes/index');
+
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -70,10 +72,10 @@ app.get('/', function (req, res) {
       if (err) {
         console.log('Error running count. Message:\n'+err);
       }
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
+      res.render('./routes/index', { pageCountMessage : count, dbInfo: dbDetails });
     });
   } else {
-    res.render('index.html', { pageCountMessage : null});
+    res.render('./routes/index', { pageCountMessage : null});
   }
 });
 

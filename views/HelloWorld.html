@@ -1,0 +1,81 @@
+<html ng-app="demo">
+<head>
+    <meta charset=utf-8 />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/table.css">
+    <script src="/javascripts/table.js"></script>
+    <title>angular listview</title>
+</head>
+<body>
+<div ng-controller="DemoCtrl">
+    <div
+            data-listview=""
+            data-template="listview.html"
+            data-items="items"
+            data-columns="title, date, filesize, dimension, tags"
+            data-methods="listview.methods">
+    </div>
+</div>
+</body>
+</html>
+<script type="text/ng-template" id="listview.html">
+    <div class="listview">
+        <table class="table">
+            <thead>
+            <tr>
+                <th ng-repeat="column in columns">
+                    {{column | capitalize}}
+                </th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in items" class="item">
+                <td ng-repeat="column in columns" class="column column-{{column}}" ng-include="getTemplate(column)"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+<!-- default -->
+<script type="text/ng-template" id="column-default.html">
+    {{_format(column,item)}}
+</script>
+
+<!-- customize column -->
+<script type="text/ng-template" id="column-title.html">
+    <div class="thumb">
+        <img ng-src="{{methods.thumb(item)}}" alt="">
+    </div>
+    <span>{{_format(column,item)}}</span>
+</script>
+<script type="text/ng-template" id="column-dimension.html">
+    <span>{{_format(column,item)}}</span>
+</script>
+<script type="text/ng-template" id="column-tags.html">
+    <div ng-repeat="tag in item[column]" class="tag">
+        <span>{{tag}}</span>
+    </div>
+</script>
+
+<script>
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+ if (this.readyState == 4 && this.status == 200) {
+ alert(this.responseText);
+ }
+// };
+
+        xhttp.onload = function (res, data) {
+            callback(this.response);
+ alert(this.response);
+// Begin accessing JSON data here
+        }
+    }
+
+    xhttp.open("GET", "http://localhost:3000/fetch_db", true);
+    // xhttp.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    // xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+</script>
